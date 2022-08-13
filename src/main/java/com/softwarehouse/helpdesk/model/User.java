@@ -6,6 +6,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
+import java.util.Set;
 
 @ToString
 @Getter
@@ -37,6 +38,12 @@ public class User {
     private String password;
     @Column(name = "user_active")
     private Boolean active;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JoinTable(name = "users_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles;
 
     public User(String email, String name, String lastName, String password, Boolean active) {
         this.email = email;
